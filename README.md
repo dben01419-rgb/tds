@@ -40,14 +40,4 @@ Enable it before loading the library:
 getgenv().Gatlify = true
 ```
 
-The UI also exposes an `Enable Gatlify` toggle. It loads:
-
-```text
-https://raw.githubusercontent.com/avtryxz/Gatlify/refs/heads/main/Gatlify.lua
-```
-
 The option is disabled by default.
-
-## Troubleshooting
-
-If the console reports `Wave 0` for every short-form action, update the library URL above and restart the executor. The ordered compatibility queue is included in the current `main` branch.
