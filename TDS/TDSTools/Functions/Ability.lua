@@ -20,7 +20,9 @@ return function(self, p1)
     end
     SetActionInfo("Ability","Total")
     task.spawn(function()
-        if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+        local CompatRelease = BeginCompatAction(tableinfo)
+        if not tableinfo.Compat and not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+            CompatRelease()
             return
         end
         local AbilityCheck
@@ -34,11 +36,13 @@ return function(self, p1)
         end)
         repeat
             if not TowersCheckHandler(Tower) then
+                CompatRelease()
                 return
             end
             if Ability == "Call Of Arms" and _G.TowersContained[Tower].AutoChain then
                 SetActionInfo("Ability")
                 ConsoleInfo("Skipped Ability (AutoChain Enabled) On Tower Index: "..Tower..", Type: \""..TowerType.."\", (Wave "..Wave..", Min: "..Min..", Sec: "..Sec..", InBetween: "..tostring(InWave)..")")
+                CompatRelease()
                 return
             end
             AbilityCheck = RemoteFunction:InvokeServer("Troops","Abilities","Activate",{
@@ -50,5 +54,6 @@ return function(self, p1)
         until typeof(AbilityCheck) == "boolean" and AbilityCheck
         SetActionInfo("Ability")
         ConsoleInfo("Used Ability On Tower Index: "..Tower..", Type: \""..TowerType.."\", (Wave "..Wave..", Min: "..Min..", Sec: "..Sec..", InBetween: "..tostring(InWave)..")")
+        CompatRelease()
     end)
 end

@@ -189,7 +189,9 @@ return function(self, p1)
     end
 
     task.spawn(function()
-        if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+        local CompatRelease = BeginCompatAction(tableinfo)
+        if not tableinfo.Compat and not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+            CompatRelease()
             print("Return")
             return
         end
@@ -217,6 +219,7 @@ return function(self, p1)
                 end
             end
             if CurrentCount ~= StratXLibrary.RestartCount then
+                CompatRelease()
                 return
             end
             PlaceCheck = RemoteFunction:InvokeServer("Troops","Place",{
@@ -253,5 +256,6 @@ return function(self, p1)
         SetActionInfo("Place")
         local StackingCheck = (TowerTable.Position - TowerTable.OldPosition).magnitude > 1
         ConsoleInfo(`Placed {Tower} Index: {PlaceCheck.Name}, Type: \"{TowerType}\", (Wave {Wave}, Min: {Min}, Sec: {Sec}, InBetween: {InWave}, Time Error: {ReplicatedStorage.State.Timer.Time.Value - Min*60+Sec}) {if StackingCheck then ", Stacked Position" else ", Original Position"}`)
+        CompatRelease()
     end)
 end

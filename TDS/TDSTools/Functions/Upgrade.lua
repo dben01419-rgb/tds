@@ -20,8 +20,10 @@ return function(self, p1)
     local CurrentCount = StratXLibrary.CurrentCount
     SetActionInfo("Upgrade","Total")
     task.spawn(function()
-        local TimerCheck = TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"])
+        local CompatRelease = BeginCompatAction(tableinfo)
+        local TimerCheck = tableinfo.Compat or TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"])
         if not TimerCheck then
+            CompatRelease()
             return
         end
         --prints(TimerCheck)
@@ -33,6 +35,7 @@ return function(self, p1)
         repeat
             if not TowersCheckHandler(Tower) then
                 prints("End Upgrade",Wave, Min, Sec, InWave)
+                CompatRelease()
                 return
             end
             UpgradeCheck = RemoteFunction:InvokeServer("Troops","Upgrade","Set",{
@@ -48,13 +51,16 @@ return function(self, p1)
         end
         local TowerType = GetTypeIndex(tableinfo["TypeIndex"],Tower)
         if CurrentCount ~= StratXLibrary.RestartCount then
+            CompatRelease()
             return
         end
         if SkipCheck and not UpgradeCheck then
             ConsoleError("Failed To Upgrade Tower Index: "..Tower..", Type: \""..TowerType.."\", (Wave "..Wave..", Min: "..Min..", Sec: "..Sec..", InBetween: "..tostring(InWave)..") UpgradeCheck: "..tostring(UpgradeCheck)..", SkipCheck: "..tostring(SkipCheck))
+            CompatRelease()
             return
         end
         SetActionInfo("Upgrade")
         ConsoleInfo("Upgraded Tower Index: "..Tower..", Type: \""..TowerType.."\", (Wave "..Wave..", Min: "..Min..", Sec: "..Sec..", InBetween: "..tostring(InWave)..") UpgradeCheck: "..tostring(UpgradeCheck)..", SkipCheck: "..tostring(SkipCheck))
+        CompatRelease()
     end)
 end

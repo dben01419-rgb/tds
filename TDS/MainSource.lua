@@ -60,6 +60,8 @@ StratXLibrary["ActionInfo"] = {
 StratXLibrary.UI = {}
 StratXLibrary.RestartCount = 0
 StratXLibrary.CurrentCount = StratXLibrary.RestartCount
+StratXLibrary.CompatOrderRunning = 1
+StratXLibrary.CompatOrderNext = 1
 --StratXLibrary.MultiStratEnabled = getgenv().IsMultiStrat or false
 --[[StratXLibrary.MultiStratEnabled = true
 getgenv().GameSpoof = "Lobby"]]
@@ -201,14 +203,38 @@ UtilitiesConfig = StratXLibrary.UtilitiesConfig
 print(MainLink.."TDSTools/ConvertFunc.lua")
 local Patcher = loadstring(game:HttpGet(MainLink.."TDSTools/ConvertFunc.lua", true))()--loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/ConvertFunc.lua", true))()
 function ParametersPatch(FuncsName,...)
+	local Result
 	if type(...) == "table" and #{...} == 1 then --select("#",...)
-		return ...
-	end
-	local GetFuncName = FuncsName --debug.getinfo(4,"n").name
-	if StratXLibrary.Functions[GetFuncName] and Patcher[GetFuncName] then
-		return Patcher[GetFuncName](...)
+		Result = ...
 	else
-		return {...}
+		local GetFuncName = FuncsName --debug.getinfo(4,"n").name
+		if StratXLibrary.Functions[GetFuncName] and Patcher[GetFuncName] then
+			Result = Patcher[GetFuncName](...)
+		else
+			Result = {...}
+		end
+	end
+	if type(Result) == "table" and Result.Wave == nil and table.find({"Place", "Upgrade", "Ability", "Option"}, FuncsName) then
+		Result.Compat = true
+		Result.CompatOrder = StratXLibrary.CompatOrderNext
+		StratXLibrary.CompatOrderNext += 1
+	end
+	return Result
+end
+
+function BeginCompatAction(tableinfo)
+	if not tableinfo or not tableinfo.Compat then
+		return function() end
+	end
+	while tableinfo.CompatOrder ~= StratXLibrary.CompatOrderRunning do
+		task.wait()
+	end
+	local Released = false
+	return function()
+		if not Released then
+			Released = true
+			StratXLibrary.CompatOrderRunning += 1
+		end
 	end
 end
 

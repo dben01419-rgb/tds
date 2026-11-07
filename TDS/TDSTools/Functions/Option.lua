@@ -21,7 +21,9 @@ return function(self, p1)
     end
     SetActionInfo("Option","Total")
     task.spawn(function()
-        if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+        local CompatRelease = BeginCompatAction(tableinfo)
+        if not tableinfo.Compat and not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+            CompatRelease()
             return
         end
         local OptionCheck
@@ -35,6 +37,7 @@ return function(self, p1)
         end)
         repeat
             if not TowersCheckHandler(Tower) then
+                CompatRelease()
                 return
             end
             OptionCheck = RemoteFunction:InvokeServer("Troops","Option","Set",{
@@ -46,5 +49,6 @@ return function(self, p1)
         until typeof(OptionCheck) == "boolean" and OptionCheck
         SetActionInfo("Option")
         ConsoleInfo(`Set Option (Name: {OptName}, Value: {OptValue}) On Tower Index: {Tower}, Type: \"{TowerType}\", (Wave {Wave}, Min: {Min}, Sec: {Sec}, InBetween: {InWave})`)
+        CompatRelease()
     end)
 end

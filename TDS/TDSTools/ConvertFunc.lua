@@ -83,9 +83,12 @@ local Patcher = {
     end,
     ["Ability"] = function(troop, nameability, wave, min, sec, inbetween, data)
         -- Compatibility form: TDS:Ability(index, name [, data])
-        if type(wave) == "table" and min == nil and sec == nil and inbetween == nil and data == nil then
+        if type(wave) == "table" then
             data = wave
             wave = nil
+            min = nil
+            sec = nil
+            inbetween = nil
         end
         return {
             ["TowerIndex"] = troop,
