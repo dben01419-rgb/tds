@@ -74,6 +74,7 @@ StratXLibrary.UtilitiesConfig = {
 	TowersPreview = getgenv().Debug or false,
 	AutoSkip = getgenv().AutoSkip or false,
 	UseTimeScale = getgenv().UseTimeScale or false,
+	Gatlify = getgenv().Gatlify == true or getgenv().EnableGatlify == true,
 	PreferMatchmaking = getgenv().PreferMatchmaking or getgenv().Matchmaking or false,
 	Webhook = {
 		WebhookEnabled = true,
@@ -296,6 +297,9 @@ if isfile(LocalFolder.."UserConfig/UtilitiesConfig.txt") then
 	if type(getgenv().UseTimeScale) == "boolean" then
 		UtilitiesConfig.UseTimeScale = getgenv().UseTimeScale
 	end
+	if type(getgenv().Gatlify) == "boolean" or type(getgenv().EnableGatlify) == "boolean" then
+		UtilitiesConfig.Gatlify = getgenv().Gatlify == true or getgenv().EnableGatlify == true
+	end
 	if type(getgenv().PreferMatchmaking) == "boolean" or type(getgenv().Matchmaking) == "boolean" then
 		UtilitiesConfig.PreferMatchmaking = getgenv().PreferMatchmaking or getgenv().Matchmaking
 	end
@@ -318,6 +322,7 @@ function SaveUtilitiesConfig()
 		TowersPreview = UtilitiesTab.flags.TowersPreview,
 		AutoSkip = UtilitiesTab.flags.AutoSkip,
 		UseTimeScale = UtilitiesTab.flags.UseTimeScale,
+		Gatlify = UtilitiesTab.flags.Gatlify,
 		PreferMatchmaking = UtilitiesTab.flags.PreferMatchmaking,
 		Webhook = {
 			WebhookEnabled = Webhook.flags.WebhookEnabled or false,
@@ -332,6 +337,28 @@ function SaveUtilitiesConfig()
 	}
 	UtilitiesConfig = StratXLibrary.UtilitiesConfig
 	writefile(LocalFolder.."UserConfig/UtilitiesConfig.txt", game:GetService("HttpService"):JSONEncode(UtilitiesConfig))
+end
+
+local GatlifyUrl = "https://raw.githubusercontent.com/avtryxz/Gatlify/refs/heads/main/Gatlify.lua"
+function StratXLibrary.RunGatlify()
+	if StratXLibrary.GatlifyStarted or not UtilitiesConfig.Gatlify then
+		return
+	end
+	StratXLibrary.GatlifyStarted = true
+	task.spawn(function()
+		local Success, Error = pcall(function()
+			local Source = game:HttpGet(GatlifyUrl, true)
+			local Chunk = loadstring(Source)
+			assert(type(Chunk) == "function", "Gatlify response did not compile")
+			return Chunk()
+		end)
+		if not Success then
+			StratXLibrary.GatlifyStarted = false
+			warn("[Strategies X] Gatlify failed: " .. tostring(Error))
+		else
+			print("[Strategies X] Gatlify loaded")
+		end
+	end)
 end
 
 function CheckPlace()
@@ -1116,6 +1143,13 @@ Webhook:Toggle("Troops Info", {default = UtilitiesConfig.Webhook.TroopsInfo or f
 UtilitiesTab:Section("Universal Settings")
 UtilitiesTab:Toggle("Prefer Matchmaking", {flag = "PreferMatchmaking", default = UtilitiesConfig.PreferMatchmaking})
 UtilitiesTab:Toggle("Auto Skip Wave", {flag = "AutoSkip", default = UtilitiesConfig.AutoSkip})
+	UtilitiesTab:Toggle("Enable Gatlify", {flag = "Gatlify", default = UtilitiesConfig.Gatlify}, function(bool)
+		UtilitiesConfig.Gatlify = bool
+		SaveUtilitiesConfig()
+		if bool then
+			StratXLibrary.RunGatlify()
+		end
+	end)
 UtilitiesTab:Toggle("Low Graphics Mode", {default = UtilitiesConfig.LowGraphics or false, flag = "LowGraphics"}, function(bool)
 	if not StratXLibrary.LowGraphics then 
 		repeat task.wait() until StratXLibrary.LowGraphics
@@ -1125,6 +1159,9 @@ end)
 UtilitiesTab:Toggle("Bypass Group Checking",{default = UtilitiesConfig.BypassGroup or false, flag = "BypassGroup"})
 UtilitiesTab:Toggle("Auto Buy Missing Tower",{default = UtilitiesConfig.AutoBuyMissing or false, flag = "AutoBuyMissing"})
 UtilitiesTab:Toggle("Auto Restart When Lose", {flag = "RestartMatch", default = UtilitiesConfig.RestartMatch})
+	if UtilitiesConfig.Gatlify then
+		StratXLibrary.RunGatlify()
+	end
 UtilitiesTab:Button("Rejoin To Lobby",function()
 	task.wait()
 	TeleportHandler(3260590327,2,7)
