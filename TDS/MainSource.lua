@@ -1407,6 +1407,32 @@ function Strat.new()
 	function t:SetOption(...)
 		return self.Option(...)
 	end
+	function t:GameInfo(mapName, modifiers)
+		if type(mapName) ~= "string" or #mapName == 0 then
+			return
+		end
+		local mode = "Survival"
+		local modeInfo = self.Mode and self.Mode.Lists and self.Mode.Lists[1]
+		if modeInfo and type(modeInfo.Name) == "string" and modeInfo.Name:lower():find("hardcore", 1, true) then
+			mode = "Hardcore"
+		end
+		self.Map(mapName, true, mode)
+		local mapInfo = self.Map.Lists[#self.Map.Lists]
+		mapInfo.Modifiers = modifiers or {}
+		StratXLibrary.CompatibilityConfig.GameInfo = mapInfo
+	end
+	function t:UnlockTimeScale()
+		StratXLibrary.CompatibilityConfig.TimeScaleUnlocked = true
+		UtilitiesConfig.UseTimeScale = true
+	end
+	function t:TimeScale(value)
+		local scale = tonumber(value)
+		if scale then
+			StratXLibrary.CompatibilityConfig.TimeScale = scale
+			getgenv().TimeScaleValue = scale
+			UtilitiesConfig.UseTimeScale = true
+		end
+	end
 	function t:Ready()
 		if CheckPlace() then
 			RemoteEvent:FireServer("LobbyVoting", "Ready")
