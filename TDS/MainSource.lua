@@ -100,6 +100,7 @@ StratXLibrary.CompatibilityConfig = {
 	SupportCaravan = getgenv().SupportCaravan == true,
 	AutoDJ = getgenv().AutoDJ == true,
 	AutoMercenary = getgenv().AutoMercenary == true,
+	TimeScale = tonumber(getgenv().TimeScaleValue) or 2,
 }
 
 local SpoofEvent = {}
@@ -387,6 +388,36 @@ function StratXLibrary.RunGatlify()
 	end)
 end
 
+function StratXLibrary.ApplyTimeScale()
+	if not UtilitiesConfig.UseTimeScale then
+		return false
+	end
+	local TimeScaleUI = LocalPlayer.PlayerGui:WaitForChild("ReactUniversalHotbar"):WaitForChild("Frame"):FindFirstChild("timescale")
+	if not TimeScaleUI then
+		return false
+	end
+	if TimeScaleUI:FindFirstChild("Lock") then
+		local Unlocked = RemoteFunction:InvokeServer("TicketsManager", "UnlockTimeScale")
+		if Unlocked == false then
+			warn("[Strategies X] Timescale unlock was rejected")
+			return false
+		end
+		task.wait(0.5)
+	end
+	local Target = tonumber(StratXLibrary.CompatibilityConfig.TimeScale) or tonumber(getgenv().TimeScaleValue) or 2
+	local Cycles = ({[1] = 0, [1.5] = 1, [2] = 2, [0.5] = 3})[Target]
+	if Cycles == nil then
+		warn("[Strategies X] Unsupported timescale: " .. tostring(Target))
+		return false
+	end
+	for _ = 1, Cycles do
+		RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
+		task.wait(0.15)
+	end
+	print("[Strategies X] Timescale applied: " .. tostring(Target))
+	return true
+end
+
 function CheckPlace()
 	return if not GameSpoof then (game.PlaceId == 5591597781) else if GameSpoof == "Ingame" then true else false
 end
@@ -645,6 +676,16 @@ if CheckPlace() then
     local RSHealthMax = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Max") -- your max hp
 	 -- it is what it is
 	local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameNewRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
+	task.spawn(function()
+		local TimeScaleUI = LocalPlayer.PlayerGui:WaitForChild("ReactUniversalHotbar"):WaitForChild("Frame"):FindFirstChild("timescale")
+		if not TimeScaleUI then
+			return
+		end
+		repeat task.wait() until TimeScaleUI.Visible or MatchGui.Visible
+		if not MatchGui.Visible then
+			StratXLibrary.ApplyTimeScale()
+		end
+	end)
 	
 	if #Players:GetChildren() > 1 and getgenv().Multiplayer["Enabled"] == false then
 		TeleportService:Teleport(3260590327, LocalPlayer)
@@ -883,20 +924,7 @@ if CheckPlace() then
 				task.wait(5)
 				--getgenv().OldPickups = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesTopBar"):WaitForChild("Frame"):WaitForChild("items"):WaitForChild("Operation I.C.E"):WaitForChild("text").Text
 				StratXLibrary.ReadyState = false
-				if RSMode.Value == "Hardcore" or not LocalPlayer.PlayerGui:WaitForChild("ReactUniversalHotbar"):WaitForChild("Frame"):FindFirstChild("timescale") then
-					return
-				end
-				local TimeScaleUI = LocalPlayer.PlayerGui:WaitForChild("ReactUniversalHotbar"):WaitForChild("Frame"):WaitForChild("timescale")
-				if UtilitiesConfig.UseTimeScale then
-					if TimeScaleUI:FindFirstChild("Lock") then
-       					task.spawn(function()
-       						ReplicatedStorage.RemoteFunction:InvokeServer("TicketsManager", "UnlockTimeScale")
-       					task.wait(0.5)
-						   ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
-						   ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
-       					end)
-					end
-				end
+				StratXLibrary.ApplyTimeScale()
 			else
 				prints(`Match {if Info:WaitForChild("RewardBanner"):WaitForChild("textLabel").Text == "TRIUMPH!" then "Won" else "Lose"}`)
 				if AutoSkipCheck then
@@ -1086,17 +1114,9 @@ if CheckPlace() then
   			prints("Timescale Is Not Supported In Hardcore!")
   			return
   		end]]
-  		local TimeScaleUI = LocalPlayer.PlayerGui:WaitForChild("ReactUniversalHotbar"):WaitForChild("Frame"):WaitForChild("timescale")
   		prints(`{if bool then "Enabled" else "Disabled"} Timescale`)
-        if TimeScaleUI.Visible and bool then
-  		    if TimeScaleUI:FindFirstChild("Lock") then
-       		    task.spawn(function()
-       			    ReplicatedStorage.RemoteFunction:InvokeServer("TicketsManager", "UnlockTimeScale")
-       			task.wait(0.5)
-				    ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
-       				ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
-       		    end)
-  		    end
+		if bool then
+			StratXLibrary.ApplyTimeScale()
   		end
   	end)
 
