@@ -393,6 +393,22 @@ for i,v in next,GetFilesName("StratLoader") do
         for line in source:gmatch("[^\r\n]*\r?\n?") do
             local found = line:match("%-%-%s*%[%s*[Ww]ave%s+(%d+)%s*%]%s*%-%-")
             if found then wave = tonumber(found) end
+            local placePrefix, placeArgs, placeSuffix = line:match("^(%s*TDS:%s*Place%s*%()(.*)(%)%s*[%r\n]*$)")
+            if wave and placePrefix then
+                local _, commas = placeArgs:gsub(",", "")
+                if commas == 3 then
+                    line = placePrefix .. placeArgs .. ", " .. wave .. placeSuffix
+                end
+            end
+            local upgradePrefix, upgradeArgs, upgradeSuffix = line:match("^(%s*TDS:%s*Upgrade%s*%()(.*)(%)%s*[%r\n]*$)")
+            if wave and upgradePrefix and not upgradeArgs:match(",%s*%d+%s*,") then
+                local first, second = upgradeArgs:match("^%s*([^,]+)%s*,%s*([^,]+)%s*$")
+                if not first then
+                    line = upgradePrefix .. upgradeArgs .. ", " .. wave .. ", 0, 0, false, 1" .. upgradeSuffix
+                elseif tonumber(second) == 1 or tonumber(second) == 2 then
+                    line = upgradePrefix .. first .. ", " .. wave .. ", 0, 0, false, " .. second .. upgradeSuffix
+                end
+            end
             if wave and line:match("^%s*TDS:%s*Sell%s*%(") and not line:match("^%s*TDS:%s*Sell%s*%([^,]+,%s*%d+") then
                 line = line:gsub("%)%s*([\r\n]*)$", ", " .. wave .. ")%1")
             end
