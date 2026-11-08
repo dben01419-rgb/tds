@@ -39,7 +39,11 @@ function Compat.Transform(source)
 						line = indent .. append(args, ", " .. wave) .. tail
 					end
 				else
-					indent, args, tail = line:match("^(%s*TDS:%s*Ability%s*%()(.*)(%)%s*[%r\n]*$)")
+					indent, args, tail = line:match("^(%s*TDS:%s*Sell%s*%()(.*)(%)%s*[%r\n]*$)")
+					if indent then
+						line = indent .. append(args, ", " .. wave) .. tail
+					else
+						indent, args, tail = line:match("^(%s*TDS:%s*Ability%s*%()(.*)(%)%s*[%r\n]*$)")
 					if indent then
 						local data = args:match("^%s*[^,]+%s*,%s*[^,]+%s*,%s*(.+)%s*$")
 						if data then
@@ -56,6 +60,7 @@ function Compat.Transform(source)
 							indent, args, tail = line:match("^(%s*TDS:%s*VoteSkip%s*%()(.*)(%)%s*[%r\n]*$)")
 							-- VoteSkip's explicit argument is already its wave.
 						end
+					end
 					end
 				end
 			end

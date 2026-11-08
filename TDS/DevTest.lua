@@ -359,7 +359,7 @@ end
 local LoadStrat = {}
 local ErrorFile = {}
 appendlog("Loaded File:")
-local StrategyCompat = loadstring(game:HttpGet("https://raw.githubusercontent.com/weanyuan/Strategies-X-Rebron/refs/heads/main/TDS/TDSTools/StrategyCompat.lua", true))()
+local StrategyCompat = loadstring(game:HttpGet("https://raw.githubusercontent.com/dben01419-rgb/tds/main/TDS/TDSTools/StrategyCompat.lua", true))()
 for i,v in next,GetFilesName("StratLoader") do
     local strat = GetFilePath("StratLoader",v)
     if strat and isfile(strat) and tostring(loadfile(strat)) ~= "nil" then
