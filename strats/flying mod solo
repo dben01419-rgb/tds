@@ -1,0 +1,62 @@
+-- [ Settings ] --
+getgenv().AutoDJ = true
+getgenv().AutoMercenary = true
+-- [ End Settings ] --
+
+local TDS = loadstring(game:HttpGet("https://getaether.cc/loader.lua"))()
+
+TDS:Loadout("Gatling Gun", "DJ Booth", "Mercenary Base", "Militant", "None")
+TDS:Mode("Trial")
+TDS:Place("Militant", -5.25, 0.40, -17.29, true) -- 1
+TDS:Ready()
+TDS:Upgrade(1)
+TDS:Place("Militant", -5.25, 0.40, -17.29, true) -- 2
+TDS:Place("Militant", -5.25, 0.40, -17.29, true) -- 3
+TDS:Upgrade(3)
+TDS:Place("Militant", -5.25, 0.40, -17.29, true) -- 4
+TDS:Upgrade(2)
+TDS:Upgrade(4)
+TDS:Place("Militant", -5.25, 0.40, -17.29, true) -- 5
+TDS:Upgrade(5)
+TDS:VoteSkip(8)
+TDS:VoteSkip(9)
+TDS:Place("Gatling Gun", -5.25, 0.40, -17.29, true) -- 6
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Place("DJ Booth", -5.25, 0.40, -17.29, true) -- 7
+TDS:Upgrade(7)
+TDS:SetOption(7, "Track", "Green")
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:Ability(7, "Drop The Beat")
+TDS:Upgrade(6)
+TDS:Upgrade(7)
+TDS:Ability(7, "Drop The Beat")
+TDS:Upgrade(7)
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:SetOption(7, "Track", "Red")
+TDS:Place("Mercenary Base", -5.25, 0.40, -17.29, true) -- 8
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Place("Mercenary Base", -5.25, 0.40, -17.29, true) -- 9
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Place("Mercenary Base", -5.25, 0.40, -17.29, true) -- 10
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+
+-- [[ END OF STRATEGY ]]

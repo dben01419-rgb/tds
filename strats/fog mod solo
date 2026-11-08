@@ -1,0 +1,86 @@
+local TDS = loadstring(game:HttpGet("https://getaether.cc/loader.lua"))()
+
+TDS:Loadout("Gatling Gun", "Military Base", "Trapper", "Mercenary Base", "None")
+TDS:Mode("Trial")
+TDS:GameInfo("Winter Abyss", {})
+
+TDS:Place("Trapper", -4.44, 2.01, 19.29) -- 1
+TDS:Ready()
+TDS:Upgrade(1)
+TDS:Upgrade(1)
+TDS:Place("Trapper", -17.60, 2.47, 14.07) -- 2
+TDS:Upgrade(2)
+TDS:Upgrade(2)
+TDS:SetOption(2, "Trap", "Landmine")
+TDS:Place("Gatling Gun", -13.52, 2.25, 13.80) -- 3
+TDS:Upgrade(3)
+TDS:Upgrade(3)
+TDS:Upgrade(3)
+TDS:Upgrade(3)
+TDS:Upgrade(3)
+TDS:Upgrade(3)
+TDS:Place("Mercenary Base", -16.08, 2.29, 10.39) -- 4
+TDS:Upgrade(4)
+TDS:Upgrade(4)
+TDS:Upgrade(4)
+TDS:Upgrade(4)
+TDS:Upgrade(4)
+TDS:Upgrade(4)
+TDS:Place("Military Base", -11.48, 2.04, 10.00) -- 5
+TDS:Upgrade(5)
+TDS:Upgrade(5)
+TDS:Upgrade(5)
+TDS:Upgrade(5)
+TDS:Upgrade(5)
+TDS:Place("Military Base", -14.32, 2.13, 3.63) -- 6
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Place("Military Base", -11.00, 2.05, 0.41) -- 7
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:Place("Military Base", -19.27, 2.40, 3.11) -- 8
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Place("Military Base", -24.28, 2.56, 3.33) -- 9
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Place("Mercenary Base", -16.68, 2.32, -1.51) -- 10
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Place("Mercenary Base", -21.89, 2.63, -1.21) -- 11
+TDS:Upgrade(11)
+TDS:Upgrade(11)
+TDS:Upgrade(11)
+TDS:Upgrade(11)
+TDS:Upgrade(11)
+TDS:Upgrade(11)
+TDS:Upgrade(2)
+TDS:Upgrade(2)
+TDS:SetOption(2, "Trap", "Bear Traps")
+TDS:Upgrade(1)
+TDS:Upgrade(1)
+TDS:SetOption(1, "Trap", "Bear Traps")
+TDS:Place("Trapper", -10.89, 2.06, 21.65) -- 12
+TDS:Upgrade(12)
+TDS:Upgrade(12)
+TDS:Upgrade(12)
+TDS:Upgrade(12)
+TDS:SetOption(12, "Trap", "Landmine")
+
+-- [[ END OF STRATEGY ]]
