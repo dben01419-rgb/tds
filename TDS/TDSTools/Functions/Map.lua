@@ -158,8 +158,7 @@ return function(self, p1)
                     task.wait()
                     for _, candidate in next, StratXLibrary.Strat do
                         if candidate.Map and candidate.Map.Lists[1]
-                            and candidate.Loadout and type(candidate.Loadout.Lists[1]) == "table"
-                            and #candidate.Loadout.Lists[1] > 0 then
+                            and candidate.Map.Lists[#candidate.Map.Lists].Map then
                             Strat = candidate
                             MapProps = candidate.Map.Lists[#candidate.Map.Lists]
                             break
@@ -174,11 +173,14 @@ return function(self, p1)
                     ["Fallen"] = "Fallen",
                 }
                 local DifficultyName = Strat.Mode.Lists[1] and DiffTable[Strat.Mode.Lists[1].Name]
-                local LoadoutInfo = Strat.Loadout.Lists[1]
-                LoadoutInfo.AllowEquip = true
-                LoadoutInfo.SkipCheck = true
-                prints("Loadout Selecting")
-                Functions.Loadout(Strat,LoadoutInfo)
+                prints(`Selected Matchmaking Map: {MapProps.Map}`)
+                local LoadoutInfo = Strat.Loadout and Strat.Loadout.Lists[1]
+                if type(LoadoutInfo) == "table" and #LoadoutInfo > 0 then
+                    LoadoutInfo.AllowEquip = true
+                    LoadoutInfo.SkipCheck = true
+                    prints("Loadout Selecting")
+                    Functions.Loadout(Strat,LoadoutInfo)
+                end
                 task.wait(2)
                 UI.JoiningStatus.Text = `Teleporting to Matchmaking Place`
                 RemoteFunction:InvokeServer("Multiplayer","single_create")
