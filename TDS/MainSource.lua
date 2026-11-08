@@ -1629,4 +1629,9 @@ task.spawn(function()
 end)
 prints(`Loaded Library. Took: {math.floor((os.clock() - OldTime)*1000)/1000}s`)
 StratXLibrary.Executed = true
-return Strat.new()
+local Proxy = Strat.new()
+if shared then
+	shared.TDSTable = Proxy
+end
+getgenv().TDSTable = Proxy
+return Proxy
