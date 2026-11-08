@@ -16,12 +16,15 @@ return function(self, p1)
     end
     SetActionInfo("Skip","Total")
     task.spawn(function()
+        local CompatRelease = BeginCompatAction(tableinfo)
         local SkipCheck
         local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame") -- it is what it is
         if Wave == 0 then
+            CompatRelease()
             return
         end
         if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+            CompatRelease()
             return
         end
         repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
@@ -38,6 +41,7 @@ return function(self, p1)
             until VoteGUI.Position ~= UDim2.new(2, 30, 0.5, 0)
         end
         if VoteGUI:WaitForChild("prompt").Text ~= "Skip Wave?" then
+            CompatRelease()
             return
         end
         repeat
@@ -46,5 +50,6 @@ return function(self, p1)
         until typeof(SkipCheck) == "boolean" and SkipCheck
         SetActionInfo("Skip")
         ConsoleInfo(`Skipped Wave {Wave} (Min: {Min}, Sec: {Sec}, InBetween: {InWave})`)
+        CompatRelease()
     end)
 end
