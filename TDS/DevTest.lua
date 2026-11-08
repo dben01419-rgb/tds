@@ -415,11 +415,6 @@ for i,v in next,GetFilesName("StratLoader") do
             table.insert(repaired, line)
         end
         local transformedSource = table.concat(repaired)
-        pcall(function()
-            if type(writefile) == "function" then
-                writefile(strat, transformedSource)
-            end
-        end)
         local compiled, compileError = loadstring(transformedSource, "@"..strat)
         if compiled then
             LoadStrat[v] = compiled
