@@ -239,6 +239,19 @@ function BeginCompatAction(tableinfo)
 	end
 end
 
+function WaitForCompatTower(Tower)
+	while true do
+		local TowerInfo = _G.TowersContained[Tower]
+		if TowerInfo and TowerInfo.Instance then
+			return true
+		end
+		if StratXLibrary.CurrentCount ~= StratXLibrary.RestartCount then
+			return false
+		end
+		task.wait()
+	end
+end
+
 loadstring(game:HttpGet(MainLink.."ConsoleLibrary.lua", true))()
 
 --[[function ConsolePrint(...)

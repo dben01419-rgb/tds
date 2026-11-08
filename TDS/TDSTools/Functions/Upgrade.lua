@@ -33,7 +33,12 @@ return function(self, p1)
             SkipCheck = true
         end)
         repeat
-            if not TowersCheckHandler(Tower) then
+            if tableinfo.Compat then
+                if not WaitForCompatTower(Tower) then
+                    CompatRelease()
+                    return
+                end
+            elseif not TowersCheckHandler(Tower) then
                 prints("End Upgrade",Wave, Min, Sec, InWave)
                 CompatRelease()
                 return

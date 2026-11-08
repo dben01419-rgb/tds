@@ -36,7 +36,12 @@ return function(self, p1)
             end
         end)
         repeat
-            if not TowersCheckHandler(Tower) then
+            if tableinfo.Compat then
+                if not WaitForCompatTower(Tower) then
+                    CompatRelease()
+                    return
+                end
+            elseif not TowersCheckHandler(Tower) then
                 CompatRelease()
                 return
             end

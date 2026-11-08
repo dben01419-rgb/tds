@@ -17,7 +17,7 @@ local TDS = loadstring(game:HttpGet(
 
 The compatibility API supports `Loadout`, `Mode`, `GameInfo`, `Place`, `Upgrade`, `Ability`, `SetOption`, `VoteSkip`, `Ready`, `UnlockTimeScale`, and `TimeScale`.
 
-Untimed short-form actions are executed in source order. This prevents upgrades and options from racing ahead of their placement:
+Untimed short-form actions are not treated as wave `0`. They run as soon as possible, wait indefinitely for required tower instances, and retry until the game accepts each action:
 
 ```lua
 TDS:Loadout("Farm", "Hacker", "DJ Booth", "Mercenary Base", "Cowboy")
