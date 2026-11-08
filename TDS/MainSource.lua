@@ -1634,4 +1634,5 @@ if shared then
 	shared.TDSTable = Proxy
 end
 getgenv().TDSTable = Proxy
+getgenv().SpaceHubTDS = Proxy
 return Proxy

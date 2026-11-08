@@ -377,12 +377,12 @@ for i,v in next,GetFilesName("StratLoader") do
         local firstTDSCall = source:find("TDS%s*:")
         local loaderPreamble = firstTDSCall and source:sub(1, firstTDSCall - 1) or ""
         if firstTDSCall and (loaderPreamble:find("loadstring", 1, true) or not loaderPreamble:find("local%s+TDS")) then
-            source = 'local TDS = loadstring(game:HttpGet("' .. UnifiedMainSource .. '", true))()\n' .. source:sub(firstTDSCall)
+            source = 'local TDS = loadstring(game:HttpGet("' .. UnifiedMainSource .. '", true))()\nif type(TDS) ~= "table" or type(TDS.Loadout) ~= "function" then TDS = (type(getgenv) == "function" and getgenv().TDSTable) or (shared and shared.TDSTable) end\n' .. source:sub(firstTDSCall)
         end
         local normalized = {}
         for line in source:gmatch("[^\r\n]*\r?\n?") do
             if line:find("loadstring", 1, true) and (line:find("MainSource.lua", 1, true) or line:find("DevTest.lua", 1, true)) then
-                line = 'local TDS = loadstring(game:HttpGet("' .. UnifiedMainSource .. '", true))()\n'
+                line = 'local TDS = loadstring(game:HttpGet("' .. UnifiedMainSource .. '", true))()\nif type(TDS) ~= "table" or type(TDS.Loadout) ~= "function" then TDS = (type(getgenv) == "function" and getgenv().TDSTable) or (shared and shared.TDSTable) end\n'
             end
             table.insert(normalized, line)
         end
