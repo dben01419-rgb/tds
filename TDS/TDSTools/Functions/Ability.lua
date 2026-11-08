@@ -21,7 +21,7 @@ return function(self, p1)
     SetActionInfo("Ability","Total")
     task.spawn(function()
         local CompatRelease = BeginCompatAction(tableinfo)
-        if not tableinfo.Compat and not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+        if not (tableinfo.Compat or tableinfo.Wave == nil) and not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
             CompatRelease()
             return
         end
@@ -35,7 +35,7 @@ return function(self, p1)
             end
         end)
         repeat
-            if tableinfo.Compat then
+            if tableinfo.Compat or tableinfo.Wave == nil then
                 if not WaitForCompatTower(Tower) then
                     CompatRelease()
                     return

@@ -190,7 +190,7 @@ return function(self, p1)
 
     task.spawn(function()
         local CompatRelease = BeginCompatAction(tableinfo)
-        if not tableinfo.Compat and not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+        if not (tableinfo.Compat or tableinfo.Wave == nil) and not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
             CompatRelease()
             print("Return")
             return

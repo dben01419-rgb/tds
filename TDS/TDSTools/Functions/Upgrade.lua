@@ -21,7 +21,8 @@ return function(self, p1)
     SetActionInfo("Upgrade","Total")
     task.spawn(function()
         local CompatRelease = BeginCompatAction(tableinfo)
-        local TimerCheck = tableinfo.Compat or TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"])
+        local Untimed = tableinfo.Compat or tableinfo.Wave == nil
+        local TimerCheck = Untimed or TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"])
         if not TimerCheck then
             CompatRelease()
             return
@@ -33,7 +34,7 @@ return function(self, p1)
             SkipCheck = true
         end)
         repeat
-            if tableinfo.Compat then
+            if Untimed then
                 if not WaitForCompatTower(Tower) then
                     CompatRelease()
                     return
