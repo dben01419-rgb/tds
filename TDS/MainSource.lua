@@ -216,7 +216,9 @@ function ParametersPatch(FuncsName,...)
 		end
 	end
 	if type(Result) == "table" and table.find({"Place", "Upgrade", "Sell", "Ability", "Option"}, FuncsName) then
-		Result.Ordered = true
+		if Result.Wave == nil or FuncsName == "Sell" then
+			Result.Ordered = true
+		end
 		if Result.Wave == nil then
 			Result.Compat = true
 		end
