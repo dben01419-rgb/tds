@@ -376,7 +376,7 @@ for i,v in next,GetFilesName("StratLoader") do
         source = source:gsub("%[" .. EscapedMainSource .. "%]%(" .. EscapedMainSource .. "%)", UnifiedMainSource)
         local firstTDSCall = source:find("TDS%s*:")
         local loaderPreamble = firstTDSCall and source:sub(1, firstTDSCall - 1) or ""
-        if firstTDSCall and loaderPreamble:find("loadstring", 1, true) then
+        if firstTDSCall and (loaderPreamble:find("loadstring", 1, true) or not loaderPreamble:find("local%s+TDS")) then
             source = 'local TDS = loadstring(game:HttpGet("' .. UnifiedMainSource .. '", true))()\n' .. source:sub(firstTDSCall)
         end
         local normalized = {}
