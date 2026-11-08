@@ -152,18 +152,20 @@ return function(self, p1)
                 return
             elseif UtilitiesConfig.PreferMatchmaking or Workspace:GetAttribute("IsPrivateServer") or game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590) then
                 UI.JoiningStatus.Text = `Matchmaking Enabled. Checking Loadout`
-                prints("Waiting Loadout Allowed")
-                local Strat = StratXLibrary.Strat
+                local Strat
                 local MapProps
                 repeat
                     task.wait()
-                    for i,v in next, Strat do
-                        if v.Loadout and v.Loadout.AllowTeleport then
-                            MapProps = v.Map.Lists[1]
+                    for _, candidate in next, StratXLibrary.Strat do
+                        if candidate.Map and candidate.Map.Lists[1]
+                            and candidate.Loadout and type(candidate.Loadout.Lists[1]) == "table"
+                            and #candidate.Loadout.Lists[1] > 0 then
+                            Strat = candidate
+                            MapProps = candidate.Map.Lists[#candidate.Map.Lists]
                             break
                         end
                     end
-                until MapProps
+                until Strat and MapProps
                 local DiffTable = {
                     ["Easy"] = "Easy",
                     ["Casual"] = "Casual",
@@ -171,7 +173,6 @@ return function(self, p1)
                     ["Intermediate"] = "Intermediate",
                     ["Fallen"] = "Fallen",
                 }
-                local Strat = Strat[MapProps.Index]
                 local DifficultyName = Strat.Mode.Lists[1] and DiffTable[Strat.Mode.Lists[1].Name]
                 local LoadoutInfo = Strat.Loadout.Lists[1]
                 LoadoutInfo.AllowEquip = true
