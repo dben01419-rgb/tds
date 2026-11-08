@@ -19,6 +19,7 @@ local Items = {
 
 local LoadLocal = false
 local MainLink = LoadLocal and "" or "https://raw.githubusercontent.com/dben01419-rgb/tds/main/TDS/"
+local MainVersion = "?v=1ba5809"
 
 local OldTime = os.clock()
 
@@ -202,7 +203,7 @@ UILibrary.options.toggledisplay = 'Fill'
 UI = StratXLibrary.UI
 UtilitiesConfig = StratXLibrary.UtilitiesConfig
 print(MainLink.."TDSTools/ConvertFunc.lua")
-local Patcher = loadstring(game:HttpGet(MainLink.."TDSTools/ConvertFunc.lua", true))()--loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/ConvertFunc.lua", true))()
+local Patcher = loadstring(game:HttpGet(MainLink.."TDSTools/ConvertFunc.lua"..MainVersion, true))()--loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/ConvertFunc.lua", true))()
 function ParametersPatch(FuncsName,...)
 	local Result
 	if type(...) == "table" and #{...} == 1 then --select("#",...)
@@ -257,7 +258,7 @@ function WaitForCompatTower(Tower)
 	end
 end
 
-loadstring(game:HttpGet(MainLink.."ConsoleLibrary.lua", true))()
+loadstring(game:HttpGet(MainLink.."ConsoleLibrary.lua"..MainVersion, true))()
 
 --[[function ConsolePrint(...)
     print("ConsolePrint",...)
@@ -273,7 +274,7 @@ end
 function ConsoleWarn(...)
     print("ConsoleWarn",...)
 end]]
-loadstring(game:HttpGet(MainLink.."TDSTools/JoinLessServer.lua", true))()
+loadstring(game:HttpGet(MainLink.."TDSTools/JoinLessServer.lua"..MainVersion, true))()
 
 -- // Part of Place function
 local PreviewHolder = Instance.new("Folder")
@@ -440,7 +441,7 @@ function CheckPlace()
 	return if not GameSpoof then (game.PlaceId == 5591597781) else if GameSpoof == "Ingame" then true else false
 end
 
-loadstring(game:HttpGet(MainLink.."TDSTools/LowGraphics.lua", true))()
+loadstring(game:HttpGet(MainLink.."TDSTools/LowGraphics.lua"..MainVersion, true))()
 
 local TimerCheck = false
 function CheckTimer(bool)
@@ -767,7 +768,7 @@ if CheckPlace() then
 
 	-- // Game Cores
 	task.spawn(function()
-		loadstring(game:HttpGet(MainLink.."TDSTools/FreeCam.lua", true))()
+		loadstring(game:HttpGet(MainLink.."TDSTools/FreeCam.lua"..MainVersion, true))()
 
 		local ModeSection = maintab:Section("GameMode: Voting")
 		task.spawn(function()
@@ -877,7 +878,7 @@ if CheckPlace() then
 			end]]
 			if UtilitiesConfig.Webhook.WebhookEnabled then
 				task.spawn(function()
-					loadstring(game:HttpGet(MainLink.."TDSTools/Webhook.lua", true))()
+					loadstring(game:HttpGet(MainLink.."TDSTools/Webhook.lua"..MainVersion, true))()
 					repeat task.wait() until type(getgenv().SendCheck) == "table"
 					prints("Sent Webhook Log")
 				end)
@@ -1288,20 +1289,20 @@ end)
 
 prints("Loaded GUI")
 
-Functions.Map = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Map.lua", true))()
-Functions.Loadout = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Loadout.lua", true))()
-Functions.Mode = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Mode.lua", true))()
-Functions.Place = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Place.lua", true))()
-Functions.Upgrade = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Upgrade.lua", true))()
-Functions.Sell = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Sell.lua", true))()
-Functions.Skip = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Skip.lua", true))()
-Functions.Ability = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Ability.lua", true))()
-Functions.Target = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Target.lua", true))()
-Functions.AutoChain = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/AutoChain.lua", true))()
-Functions.SellAllFarms = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/SellAllFarms.lua", true))()
-Functions.Option = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Option.lua", true))()
-Functions.LeaveOn = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/LeaveOn.lua", true))()
-Functions.SelectLoadout = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/SelectLoadout.lua", true))()
+Functions.Map = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Map.lua"..MainVersion, true))()
+Functions.Loadout = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Loadout.lua"..MainVersion, true))()
+Functions.Mode = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Mode.lua"..MainVersion, true))()
+Functions.Place = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Place.lua"..MainVersion, true))()
+Functions.Upgrade = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Upgrade.lua"..MainVersion, true))()
+Functions.Sell = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Sell.lua"..MainVersion, true))()
+Functions.Skip = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Skip.lua"..MainVersion, true))()
+Functions.Ability = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Ability.lua"..MainVersion, true))()
+Functions.Target = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Target.lua"..MainVersion, true))()
+Functions.AutoChain = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/AutoChain.lua"..MainVersion, true))()
+Functions.SellAllFarms = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/SellAllFarms.lua"..MainVersion, true))()
+Functions.Option = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/Option.lua"..MainVersion, true))()
+Functions.LeaveOn = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/LeaveOn.lua"..MainVersion, true))()
+Functions.SelectLoadout = loadstring(game:HttpGet(MainLink.."TDSTools/Functions/SelectLoadout.lua"..MainVersion, true))()
 
 Functions.MatchMaking = function()
 	local MapProps, Index, VetoUsedOnce, CheckingForPrivateIntermission
@@ -1419,7 +1420,7 @@ end
 
 --Side modes that aren't main ones
 function Tutorial()
-	loadstring(game:HttpGet(MainLink.."TDSTools/Tutorial.lua", true))()
+	loadstring(game:HttpGet(MainLink.."TDSTools/Tutorial.lua"..MainVersion, true))()
 end
 
 prints("Loaded Functions")
