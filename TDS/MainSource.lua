@@ -1026,6 +1026,7 @@ if CheckPlace() then
     						["count"] = 1,
     						["mode"] = string.lower(v.Map.Lists[1].Mode),
     						["difficulty"] = DifficultyName,
+							["map"] = MapInStrat,
     					})
 						SafeTeleport(Remote)
     				end

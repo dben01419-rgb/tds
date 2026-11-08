@@ -186,6 +186,7 @@ return function(self, p1)
                     ["count"] = 1,
                     ["mode"] = string.lower(MapProps.Mode),
                     ["difficulty"] = DifficultyName,
+                    ["map"] = MapProps.Map,
                 }
                 if MapProps.Modifiers then
                     MatchOptions.Mods = MapProps.Modifiers
