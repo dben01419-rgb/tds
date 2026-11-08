@@ -256,7 +256,7 @@ function ParametersPatch(FuncsName,...)
 	if table.find({"Place", "Upgrade", "Sell", "Skip", "Ability", "Option"}, FuncsName) then
 		local queue = getgenv().StrategyWaveQueue
 		if type(queue) == "table" and #queue > 0 then
-			queuedWave = table.remove(queue)
+			queuedWave = table.remove(queue, 1)
 		end
 	end
 	if type(Result) == "table" and type(queuedWave) == "table"
