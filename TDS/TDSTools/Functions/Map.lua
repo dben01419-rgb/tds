@@ -181,11 +181,17 @@ return function(self, p1)
                 task.wait(2)
                 UI.JoiningStatus.Text = `Teleporting to Matchmaking Place`
                 RemoteFunction:InvokeServer("Multiplayer","single_create")
-                RemoteFunction:InvokeServer("Multiplayer","v2:start",{
+                local MatchOptions = {
                     ["count"] = 1,
                     ["mode"] = string.lower(MapProps.Mode),
                     ["difficulty"] = DifficultyName,
-                })
+                }
+                if MapProps.Modifiers then
+                    MatchOptions.Mods = MapProps.Modifiers
+                    MatchOptions.modifiers = MapProps.Modifiers
+                    prints("Voting Modifiers: ", MapProps.Modifiers)
+                end
+                RemoteFunction:InvokeServer("Multiplayer","v2:start",MatchOptions)
                 prints("Teleporting To Matchmaking Place")
                 return
             end
