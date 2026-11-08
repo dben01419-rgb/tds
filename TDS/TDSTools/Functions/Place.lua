@@ -60,8 +60,10 @@ end
 
 StratXLibrary.AllowPlace = false
 
-if CheckPlace() then
-    task.spawn(function()
+task.spawn(function()
+        repeat
+            task.wait()
+        until CheckPlace()
         if not ReplicatedStorage.Assets:FindFirstChild("Troops") then
             repeat
                 task.wait()
@@ -79,8 +81,7 @@ if CheckPlace() then
             end
         end
         StratXLibrary.AllowPlace = true
-    end)
-end
+end)
 
 function PreviewInitial()
     if not ReplicatedStorage.Assets:FindFirstChild("Troops") then

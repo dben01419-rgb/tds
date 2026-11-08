@@ -19,7 +19,7 @@ local Items = {
 
 local LoadLocal = false
 local MainLink = LoadLocal and "" or "https://raw.githubusercontent.com/dben01419-rgb/tds/main/TDS/"
-local MainVersion = "?v=1ba5809"
+local MainVersion = "?v=allowplace-fix-20261108"
 
 local OldTime = os.clock()
 
