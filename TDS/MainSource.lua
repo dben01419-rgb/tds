@@ -19,7 +19,7 @@ local Items = {
 
 local LoadLocal = false
 local MainLink = LoadLocal and "" or "https://raw.githubusercontent.com/dben01419-rgb/tds/main/TDS/"
-local MainVersion = "?v=allowplace-fix-20261108"
+local MainVersion = "?v=debuginfo-fix-20261108"
 
 local OldTime = os.clock()
 
@@ -211,7 +211,12 @@ local function WaveFromCaller()
 		return nil
 	end
 	for level = 2, 12 do
-		local info = debug.getinfo(level, "Sl")
+		local info
+		local infoOk, infoResult = pcall(debug.getinfo, level, "Sl")
+		if not infoOk then
+			break
+		end
+		info = infoResult
 		local source = info and info.source
 		local lineNumber = info and info.currentline
 		if type(source) == "string" and type(lineNumber) == "number" then
