@@ -1515,6 +1515,11 @@ function Strat.new()
 		self.Map(mapName, true, mode)
 		local mapInfo = self.Map.Lists[#self.Map.Lists]
 		mapInfo.Modifiers = modifiers or {}
+		if type(modifiers) == "table" and next(modifiers) then
+			-- Modifier selection is only available through the match-start
+			-- flow, not the ordinary map elevator flow.
+			UtilitiesConfig.PreferMatchmaking = true
+		end
 		StratXLibrary.CompatibilityConfig.GameInfo = mapInfo
 	end
 	function t:UnlockTimeScale()
