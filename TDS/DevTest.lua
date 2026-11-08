@@ -415,6 +415,24 @@ for i,v in next,GetFilesName("StratLoader") do
             table.insert(repaired, line)
         end
         local transformedSource = table.concat(repaired)
+        local waveQueue = {}
+        local activeWave
+        for line in transformedSource:gmatch("[^\r\n]*") do
+            local found = line:match("%-%-%s*%[%s*[Ww]ave%s+(%d+)%s*%]%s*%-%-")
+            if found then activeWave = tonumber(found) end
+            local isAction = line:match("^%s*TDS:%s*Place%s*%(")
+                or line:match("^%s*TDS:%s*Upgrade%s*%(")
+                or line:match("^%s*TDS:%s*Sell%s*%(")
+                or line:match("^%s*TDS:%s*VoteSkip%s*%(")
+                or line:match("^%s*TDS:%s*Ability%s*%(")
+                or line:match("^%s*TDS:%s*SetOption%s*%(")
+            if isAction then
+                table.insert(waveQueue, {Wave = activeWave})
+            end
+        end
+        getgenv().StrategyWaveQueues = getgenv().StrategyWaveQueues or {}
+        getgenv().StrategyWaveQueues[strat] = waveQueue
+        getgenv().StrategyWaveQueues[v] = waveQueue
         local compiled, compileError = loadstring(transformedSource, "@"..strat)
         if compiled then
             LoadStrat[v] = compiled
@@ -459,6 +477,11 @@ function Loader()
             MinimizeClient(true)
         end
         if StratName then
+            local stratFileName = GetFullFileName(GetFilesName("StratLoader"), GetConfig.StratName)
+            getgenv().StrategyWaveQueue = getgenv().StrategyWaveQueues and (
+                getgenv().StrategyWaveQueues[GetFilePath("StratLoader", stratFileName)]
+                or getgenv().StrategyWaveQueues[stratFileName]
+            ) or nil
             local Success, StratError = pcall(StratName)
             appendlog(GetFullFileName(GetFilesName("StratLoader"),GetConfig.StratName).." Loaded" ..(Success and "" or " FAILED: "..tostring(StratError)))
             appendlog("Strat's Time Loaded: "..tostring(os.clock() - OldTime))

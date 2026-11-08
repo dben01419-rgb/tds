@@ -252,6 +252,17 @@ function ParametersPatch(FuncsName,...)
 			Result = {...}
 		end
 	end
+	local queuedWave
+	if table.find({"Place", "Upgrade", "Sell", "Skip", "Ability", "Option"}, FuncsName) then
+		local queue = getgenv().StrategyWaveQueue
+		if type(queue) == "table" and #queue > 0 then
+			queuedWave = table.remove(queue)
+		end
+	end
+	if type(Result) == "table" and type(queuedWave) == "table"
+		and queuedWave.Wave ~= nil and (Result.Wave == nil or Result.Wave == 0) then
+		Result.Wave = queuedWave.Wave
+	end
 	if type(Result) == "table" and Result.Wave == nil and table.find({"Place", "Upgrade", "Sell", "Skip", "Ability", "Option"}, FuncsName) then
 		local callerWave = WaveFromCaller()
 		if callerWave then Result.Wave = callerWave end
