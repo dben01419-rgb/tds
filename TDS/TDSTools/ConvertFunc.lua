@@ -12,7 +12,8 @@ local Patcher = {
     ["Loadout"] = function(...)
         local TowerList = {...}
         for i = #TowerList, 1, -1 do
-            if TowerList[i]:lower() == "nil" then
+            local Tower = TowerList[i]
+            if Tower == nil or (type(Tower) == "string" and (Tower:match("^%s*$") or Tower:lower() == "nil" or Tower:lower() == "none")) then
                 table.remove(TowerList,i)
             end
         end
