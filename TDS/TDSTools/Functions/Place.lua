@@ -240,6 +240,9 @@ return function(self, p1)
         TowerTable.Instance = PlaceCheck
         TowerTable.TypeIndex = PlaceCheck:GetAttribute("TypeIndex")
         TowerTable.Placed = true
+        -- The server accepted the placement; release the source-order queue
+        -- before optional preview/UI bookkeeping runs.
+        CompatRelease()
         TowerTable.Target = "First"
         TowerTable.TopPathUpgrade = 0
         TowerTable.BottomPathUpgrade = 0
@@ -259,6 +262,5 @@ return function(self, p1)
         SetActionInfo("Place")
         local StackingCheck = (TowerTable.Position - TowerTable.OldPosition).magnitude > 1
         ConsoleInfo(`Placed {Tower} Index: {PlaceCheck.Name}, Type: \"{TowerType}\", (Wave {Wave}, Min: {Min}, Sec: {Sec}, InBetween: {InWave}, Time Error: {ReplicatedStorage.State.Timer.Time.Value - Min*60+Sec}) {if StackingCheck then ", Stacked Position" else ", Original Position"}`)
-        CompatRelease()
     end)
 end
