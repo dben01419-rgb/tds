@@ -204,6 +204,42 @@ UI = StratXLibrary.UI
 UtilitiesConfig = StratXLibrary.UtilitiesConfig
 print(MainLink.."TDSTools/ConvertFunc.lua")
 local Patcher = loadstring(game:HttpGet(MainLink.."TDSTools/ConvertFunc.lua"..MainVersion, true))()--loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/ConvertFunc.lua", true))()
+
+local WaveSourceCache = {}
+local function WaveFromCaller()
+	if type(debug) ~= "table" or type(debug.getinfo) ~= "function" or type(readfile) ~= "function" then
+		return nil
+	end
+	for level = 3, 7 do
+		local info = debug.getinfo(level, "Sl")
+		local source = info and info.source
+		local lineNumber = info and info.currentline
+		if type(source) == "string" and type(lineNumber) == "number" and source:sub(1, 1) == "@" then
+			local path = source:sub(2)
+			if path:lower():match("%.txt$") or path:lower():match("%.lua$") then
+				local lines = WaveSourceCache[path]
+				if not lines then
+					local ok, text = pcall(readfile, path)
+					if ok and type(text) == "string" then
+						lines = {}
+						local wave
+						local line = 0
+						for content in text:gmatch("[^\r\n]*") do
+							line += 1
+							local found = content:match("%-%-%s*%[%s*[Ww]ave%s+(%d+)%s*%]%s*%-%-")
+							if found then wave = tonumber(found) end
+							lines[line] = wave
+						end
+						WaveSourceCache[path] = lines
+					end
+				end
+				if lines and lines[lineNumber] then return lines[lineNumber] end
+			end
+		end
+	end
+	return nil
+end
+
 function ParametersPatch(FuncsName,...)
 	local Result
 	if type(...) == "table" and #{...} == 1 then --select("#",...)
@@ -215,6 +251,10 @@ function ParametersPatch(FuncsName,...)
 		else
 			Result = {...}
 		end
+	end
+	if type(Result) == "table" and Result.Wave == nil and table.find({"Place", "Upgrade", "Sell", "Skip", "Ability", "Option"}, FuncsName) then
+		local callerWave = WaveFromCaller()
+		if callerWave then Result.Wave = callerWave end
 	end
 	if type(Result) == "table" and table.find({"Place", "Upgrade", "Sell", "Skip", "Ability", "Option"}, FuncsName) then
 		Result.Ordered = true
