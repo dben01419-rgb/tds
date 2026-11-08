@@ -19,25 +19,27 @@ return function(self, p1)
         SetActionInfo("Sell","Total")
     end
     task.spawn(function()
+        local CompatRelease = BeginCompatAction(tableinfo)
         if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+            CompatRelease()
             return
         end
         for i,v in next, Tower do
-            task.spawn(function()
-                local SoldCheck
-                repeat
-                    if not TowersCheckHandler(v) then
-                        return
-                    end
-                    SoldCheck = RemoteFunction:InvokeServer("Troops","Sell",{
-                        ["Troop"] = _G.TowersContained[v].Instance
-                    })
-                    task.wait()
-                until SoldCheck or not _G.TowersContained[v].Instance:FindFirstChild("HumanoidRootPart")
-                local TowerType = GetTypeIndex(tableinfo["TypeIndex"],v)
-                SetActionInfo("Sell")
-                ConsoleInfo((not SoldCheck and "Already " or "").."Sold Tower Index: "..v..", Type: \""..TowerType.."\", (Wave "..Wave..", Min: "..Min..", Sec: "..Sec..", InBetween: "..tostring(InWave)..")")
-            end)
+            local SoldCheck
+            repeat
+                if not TowersCheckHandler(v) then
+                    CompatRelease()
+                    return
+                end
+                SoldCheck = RemoteFunction:InvokeServer("Troops","Sell",{
+                    ["Troop"] = _G.TowersContained[v].Instance
+                })
+                task.wait()
+            until SoldCheck or not _G.TowersContained[v].Instance:FindFirstChild("HumanoidRootPart")
+            local TowerType = GetTypeIndex(tableinfo["TypeIndex"],v)
+            SetActionInfo("Sell")
+            ConsoleInfo((not SoldCheck and "Already " or "").."Sold Tower Index: "..v..", Type: \""..TowerType.."\", (Wave "..Wave..", Min: "..Min..", Sec: "..Sec..", InBetween: "..tostring(InWave)..")")
         end
+        CompatRelease()
     end)
 end

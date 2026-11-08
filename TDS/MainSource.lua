@@ -215,7 +215,7 @@ function ParametersPatch(FuncsName,...)
 			Result = {...}
 		end
 	end
-	if type(Result) == "table" and Result.Wave == nil and table.find({"Place", "Upgrade", "Ability", "Option"}, FuncsName) then
+	if type(Result) == "table" and table.find({"Place", "Upgrade", "Sell", "Ability", "Option"}, FuncsName) then
 		Result.Compat = true
 		Result.CompatOrder = StratXLibrary.CompatOrderNext
 		StratXLibrary.CompatOrderNext += 1
