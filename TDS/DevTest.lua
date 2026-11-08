@@ -362,14 +362,20 @@ appendlog("Loaded File:")
 local StrategyCompat = loadstring(game:HttpGet("https://raw.githubusercontent.com/dben01419-rgb/tds/main/TDS/TDSTools/StrategyCompat.lua", true))()
 for i,v in next,GetFilesName("StratLoader") do
     local strat = GetFilePath("StratLoader",v)
-    if strat and isfile(strat) and tostring(loadfile(strat)) ~= "nil" then
+    if strat and isfile(strat) then
         --print(v,loadfile(strat))
         appendlog("+ "..tostring(v))
         -- Compile through the compatibility transformer so strategies using
         -- `-- [ Wave N ] --` headers and short-form calls work unchanged.
         local source = readfile(strat)
-        local compiled = loadstring(StrategyCompat.Transform(source), "@"..strat)
-        LoadStrat[v] = compiled or loadfile(strat)
+        local compiled, compileError = loadstring(StrategyCompat.Transform(source), "@"..strat)
+        if compiled then
+            LoadStrat[v] = compiled
+            appendlog("+ "..tostring(v).." [wave format enabled]")
+        else
+            LoadStrat[v] = nil
+            appendlog("! "..tostring(v).." transform failed: "..tostring(compileError))
+        end
     else
         table.insert(ErrorFile,tostring(v))
     end
