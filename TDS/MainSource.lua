@@ -1550,14 +1550,9 @@ function Strat.new()
 		end
 	end
 	function t:Ready()
-		if CheckPlace() then
-			RemoteEvent:FireServer("LobbyVoting", "Ready")
-			StratXLibrary.ReadyState = true
-		else
-			-- Mode/Loadout calls may be made before teleport.  The normal
-			-- AutoStart path will send the ready signal once in-match.
-			StratXLibrary.ReadyState = true
-		end
+		-- Ready is a strategy marker.  Matchmaking must choose the map first;
+		-- AutoStart sends the actual ready signal after the game loads.
+		StratXLibrary.ReadyState = true
 	end
 	table.insert(StratXLibrary.Strat, t)
 	t.Index = #StratXLibrary.Strat
