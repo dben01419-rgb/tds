@@ -374,6 +374,11 @@ for i,v in next,GetFilesName("StratLoader") do
         source = source:gsub("https://raw%.githubusercontent%.com/weanyuan/Strategies%-X%-Rebron/[^\"']+TDS/MainSource%.lua", UnifiedMainSource)
         local EscapedMainSource = UnifiedMainSource:gsub("%.", "%%.")
         source = source:gsub("%[" .. EscapedMainSource .. "%]%(" .. EscapedMainSource .. "%)", UnifiedMainSource)
+        local firstTDSCall = source:find("TDS%s*:")
+        local loaderPreamble = firstTDSCall and source:sub(1, firstTDSCall - 1) or ""
+        if firstTDSCall and loaderPreamble:find("loadstring", 1, true) then
+            source = 'local TDS = loadstring(game:HttpGet("' .. UnifiedMainSource .. '", true))()\n' .. source:sub(firstTDSCall)
+        end
         local normalized = {}
         for line in source:gmatch("[^\r\n]*\r?\n?") do
             if line:find("loadstring", 1, true) and (line:find("MainSource.lua", 1, true) or line:find("DevTest.lua", 1, true)) then
