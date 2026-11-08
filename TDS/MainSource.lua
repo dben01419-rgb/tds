@@ -1470,15 +1470,6 @@ local easyBlackList = {
 --getgenv().maintenance = true
 
 function Strat.new()
-	local playerId = game:GetService("Players").LocalPlayer.UserId
-    for _,id in ipairs(easyBlackList) do
-    	if id == playerId then
-    		return
-    	end
-    end
-	if getgenv().maintenance then
-		return
-	end
 	local t = setmetatable({}, Strat)
 	for Funcname, Functable in next, StratXLibrary.Functions do
 		t[Funcname] = {
