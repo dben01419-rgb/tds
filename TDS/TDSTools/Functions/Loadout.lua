@@ -17,7 +17,15 @@ local TeleportService = game:GetService("TeleportService")
         
 return function(self, p1)
     local tableinfo = p1
-    local TotalTowers = tableinfo
+    local TotalTowers = {}
+    for _, tower in ipairs(tableinfo) do
+        if type(tower) == "string" then
+            local name = tower:match("^%s*(.-)%s*$")
+            if name ~= "" and name:lower() ~= "none" and name:lower() ~= "nil" then
+                table.insert(TotalTowers, name)
+            end
+        end
+    end
     local GoldenTowers = tableinfo["Golden"] or {}
     local LoadoutProps = self.Loadout
     local AllowEquip = tableinfo["AllowEquip"] or false
@@ -54,35 +62,30 @@ return function(self, p1)
                     table.insert(MissingTowers,v)
                 end
             end
-            if #MissingTowers ~= 0 then
+            while next(MissingTowers) do
             --UI.EquipStatus:SetText("Troops Loadout: Missing")
             LoadoutProps.AllowTeleport = false
-                repeat
-                    TroopsOwned = GetTowersInfo()
-                    for i,v in next, MissingTowers do
-                        if not TroopsOwned[v] then
-                            if true then
-                                local BoughtCheck, BoughtMsg = RemoteFunction:InvokeServer("Shop", "Purchase", "tower",v)
-                                if BoughtCheck or (type(BoughtMsg) == "string" and string.find(BoughtMsg,"Player already has tower")) then
-                                    print(v..": Bought")
-                                    --UI.TowersStatus[i].Text = v..": Bought"
-                                else
-                                    local TowerPriceStat = require(game:GetService("ReplicatedStorage").Content.Tower[v].Stats).Properties.Price
-                                    local Price = tostring(TowerPriceStat.Value)
-                                    local TypePrice = if tonumber(TowerPriceStat.Type) < 3 then "Coins" else "Gems"
-                                    print(v..": Need "..Price.." "..TypePrice)
-                                    --UI.TowersStatus[i].Text = v..": Need "..Price.." "..TypePrice
-                                end
-                            else
-                                print(v..": Missing")
-                                --UI.TowersStatus[i].Text = v..": Missing"
-                            end
+                TroopsOwned = GetTowersInfo()
+                local Remaining = {}
+                for _,v in ipairs(MissingTowers) do
+                    if not TroopsOwned[v] then
+                        local BoughtCheck, BoughtMsg = RemoteFunction:InvokeServer("Shop", "Purchase", "tower",v)
+                        if BoughtCheck or (type(BoughtMsg) == "string" and string.find(BoughtMsg,"Player already has tower")) then
+                            print(v..": Bought")
                         else
-                            MissingTowers[i] = nil
+                            local TowerData = game:GetService("ReplicatedStorage").Content.Tower:FindFirstChild(v)
+                            if TowerData and TowerData:FindFirstChild("Stats") then
+                                local TowerPriceStat = require(TowerData.Stats).Properties.Price
+                                local Price = tostring(TowerPriceStat.Value)
+                                local TypePrice = if tonumber(TowerPriceStat.Type) < 3 then "Coins" else "Gems"
+                                print(v..": Need "..Price.." "..TypePrice)
+                            end
                         end
+                        table.insert(Remaining, v)
                     end
-                    task.wait(.5)
-                until #MissingTowers == 0
+                end
+                MissingTowers = Remaining
+                task.wait(.5)
             end
         end
         LoadoutProps.AllowTeleport = true
