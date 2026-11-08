@@ -426,8 +426,8 @@ function Loader()
             MinimizeClient(true)
         end
         if StratName then
-            local Success = pcall(StratName)
-            appendlog(GetFullFileName(GetFilesName("StratLoader"),GetConfig.StratName).." Loaded" ..(Success and "" or " FAILED"))
+            local Success, StratError = pcall(StratName)
+            appendlog(GetFullFileName(GetFilesName("StratLoader"),GetConfig.StratName).." Loaded" ..(Success and "" or " FAILED: "..tostring(StratError)))
             appendlog("Strat's Time Loaded: "..tostring(os.clock() - OldTime))
         else
             --warn("Couldn't Find Strat Name "..GetConfig.StratName.." In StratLoader Folder.")
