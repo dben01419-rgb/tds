@@ -387,7 +387,18 @@ for i,v in next,GetFilesName("StratLoader") do
             table.insert(normalized, line)
         end
         source = table.concat(normalized)
-        local compiled, compileError = loadstring(StrategyCompat.Transform(source), "@"..strat)
+        source = StrategyCompat.Transform(source)
+        local wave
+        local repaired = {}
+        for line in source:gmatch("[^\r\n]*\r?\n?") do
+            local found = line:match("%-%-%s*%[%s*[Ww]ave%s+(%d+)%s*%]%s*%-%-")
+            if found then wave = tonumber(found) end
+            if wave and line:match("^%s*TDS:%s*Sell%s*%(") and not line:match("^%s*TDS:%s*Sell%s*%([^,]+,%s*%d+") then
+                line = line:gsub("%)%s*([\r\n]*)$", ", " .. wave .. ")%1")
+            end
+            table.insert(repaired, line)
+        end
+        local compiled, compileError = loadstring(table.concat(repaired), "@"..strat)
         if compiled then
             LoadStrat[v] = compiled
             appendlog("+ "..tostring(v).." [wave format enabled]")
