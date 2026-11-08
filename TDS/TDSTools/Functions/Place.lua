@@ -159,6 +159,7 @@ return function(self, p1)
     if not CheckPlace() then
         return
     end
+    prints(`Queue Place: {Tower} (Wave {Wave})`)
     SetActionInfo("Place","Total")
     _G.TowersContained.Index += 1
     local TempNum = _G.TowersContained.Index
@@ -177,6 +178,7 @@ return function(self, p1)
     local CurrentCount = StratXLibrary.CurrentCount
     local TowerTable = _G.TowersContained[TempNum]
     repeat task.wait() until StratXLibrary.AllowPlace
+    prints(`Place Ready: {Tower} (Wave {Wave})`)
 
     local TowerModel = AddFakeTower(TowerTable.TowerName)
     --TowerModel.PrimaryPart.CFrame = CFrame.new(TowerTable.Position) + Vector3.new(0,math.abs(TowerModel.PrimaryPart.HeightOffset.CFrame.Y),0)
@@ -195,6 +197,7 @@ return function(self, p1)
             print("Return")
             return
         end
+        prints(`Place Sending: {Tower} (Wave {Wave})`)
         TowerTable.PassedTimer = true
         local PlaceCheck, ErrorModel
         task.delay(45, function()
