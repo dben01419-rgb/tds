@@ -1301,6 +1301,20 @@ Functions.MatchMaking = function()
 	local MapProps, Index, VetoUsedOnce, CheckingForPrivateIntermission
     local RSMap = ReplicatedStorage:WaitForChild("State"):WaitForChild("Map") --map's Name
 	local GameMode = if Workspace:FindFirstChild("IntermissionLobby") then "Survival" else "Hardcore"
+	-- Prefer the strategy's requested mode.  Both intermission lobby models
+	-- can exist while the client is still in the shared lobby.
+	for _, strategy in ipairs(StratXLibrary.Strat) do
+		local modeInfo = strategy.Mode and strategy.Mode.Lists and strategy.Mode.Lists[1]
+		if modeInfo and type(modeInfo.Name) == "string" then
+			local requestedMode = modeInfo.Name:lower()
+			if requestedMode:find("hardcore", 1, true) then
+				GameMode = "Hardcore"
+			elseif requestedMode:find("survival", 1, true) or requestedMode:find("normal", 1, true) then
+				GameMode = "Survival"
+			end
+			break
+		end
+	end
 	local Lobby = if GameMode == "Survival" then "IntermissionLobby" else "HardcoreIntermissionLobby"
 	if not Workspace:FindFirstChild(Lobby) then
 		return
