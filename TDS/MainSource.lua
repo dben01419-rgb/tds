@@ -210,13 +210,13 @@ local function WaveFromCaller()
 	if type(debug) ~= "table" or type(debug.getinfo) ~= "function" or type(readfile) ~= "function" then
 		return nil
 	end
-	for level = 3, 7 do
+	for level = 2, 12 do
 		local info = debug.getinfo(level, "Sl")
 		local source = info and info.source
 		local lineNumber = info and info.currentline
-		if type(source) == "string" and type(lineNumber) == "number" and source:sub(1, 1) == "@" then
-			local path = source:sub(2)
-			if path:lower():match("%.txt$") or path:lower():match("%.lua$") then
+		if type(source) == "string" and type(lineNumber) == "number" then
+			local path = source:gsub("^[@=]", "")
+			if path:lower():find(".txt", 1, true) or path:lower():find(".lua", 1, true) then
 				local lines = WaveSourceCache[path]
 				if not lines then
 					local ok, text = pcall(readfile, path)
