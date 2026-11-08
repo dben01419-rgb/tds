@@ -216,7 +216,10 @@ function ParametersPatch(FuncsName,...)
 		end
 	end
 	if type(Result) == "table" and table.find({"Place", "Upgrade", "Sell", "Ability", "Option"}, FuncsName) then
-		Result.Compat = true
+		Result.Ordered = true
+		if Result.Wave == nil then
+			Result.Compat = true
+		end
 		Result.CompatOrder = StratXLibrary.CompatOrderNext
 		StratXLibrary.CompatOrderNext += 1
 	end
@@ -224,7 +227,7 @@ function ParametersPatch(FuncsName,...)
 end
 
 function BeginCompatAction(tableinfo)
-	if not tableinfo or not tableinfo.Compat then
+	if not tableinfo or not (tableinfo.Compat or tableinfo.Ordered) then
 		return function() end
 	end
 	while tableinfo.CompatOrder ~= StratXLibrary.CompatOrderRunning do
