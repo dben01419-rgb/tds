@@ -1,0 +1,107 @@
+-- [ Settings ] --
+getgenv().AutoDJ = true
+getgenv().AutoMercenary = true
+-- [ End Settings ] --
+
+local TDS = loadstring(game:HttpGet("https://getaether.cc/loader.lua"))()
+
+TDS:Loadout("Gatling Gun", "DJ Booth", "Mercenary Base", "Trapper", "None")
+TDS:Mode("Trial")
+
+TDS:Place("Trapper", -15.56, 1.00, 3.34, true) -- 1
+TDS:Ready()
+TDS:Upgrade(1)
+TDS:Place("Trapper", -5.26, 1.00, -14.35, true) -- 2
+TDS:Upgrade(2)
+TDS:Upgrade(2)
+TDS:SetOption(2, "Trap", "Landmine")
+TDS:Upgrade(1)
+TDS:Place("Gatling Gun", -1.28, 3.60, -5.35, true) -- 3
+TDS:Upgrade(3)
+TDS:Upgrade(3)
+TDS:Place("DJ Booth", -5.71, 3.60, -4.46, true) -- 4
+TDS:Upgrade(4)
+TDS:SetOption(4, "Track", "Green")
+TDS:Upgrade(4)
+TDS:Upgrade(4)
+TDS:Ability(4, "Drop The Beat")
+TDS:Ability(4, "Drop The Beat")
+TDS:Upgrade(3)
+TDS:Ability(4, "Drop The Beat")
+TDS:Upgrade(4)
+TDS:Ability(4, "Drop The Beat")
+TDS:Upgrade(1)
+TDS:Upgrade(1)
+TDS:SetOption(1, "Trap", "Bear Traps")
+TDS:Upgrade(4)
+TDS:Ability(4, "Drop The Beat")
+TDS:Upgrade(3)
+TDS:Upgrade(3)
+TDS:Upgrade(3)
+TDS:SetOption(4, "Track", "Red")
+TDS:Place("Mercenary Base", -0.99, 3.60, -0.66, true) -- 5
+TDS:Upgrade(5)
+TDS:Upgrade(5)
+TDS:Upgrade(5)
+TDS:Upgrade(5)
+TDS:Upgrade(5)
+TDS:SetOption(5, "Unit 1", "Riot Guard")
+TDS:SetOption(5, "Unit 2", "Riot Guard")
+TDS:SetOption(5, "Unit 3", "Riot Guard")
+TDS:Upgrade(5)
+TDS:Place("Mercenary Base", 0.37, 1.00, -10.23, true) -- 6
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:SetOption(6, "Unit 3", "Riot Guard")
+TDS:SetOption(6, "Unit 2", "Riot Guard")
+TDS:SetOption(6, "Unit 1", "Riot Guard")
+TDS:Upgrade(6)
+TDS:Upgrade(6)
+TDS:Place("Mercenary Base", -8.66, 1.00, -12.24, true) -- 7
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:Upgrade(7)
+TDS:SetOption(7, "Unit 2", "Riot Guard")
+TDS:SetOption(7, "Unit 1", "Riot Guard")
+TDS:SetOption(7, "Unit 3", "Grenadier")
+TDS:SetOption(7, "Unit 3", "Riot Guard")
+TDS:Upgrade(7)
+TDS:Upgrade(2)
+TDS:Upgrade(2)
+TDS:SetOption(2, "Trap", "Bear Traps")
+TDS:Place("Trapper", 5.91, 1.00, -15.23, true) -- 8
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:Upgrade(8)
+TDS:SetOption(8, "Trap", "Bear Traps")
+TDS:Place("Trapper", 9.98, 1.00, -16.30, true) -- 9
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:Upgrade(9)
+TDS:SetOption(9, "Trap", "Bear Traps")
+TDS:Place("Trapper", 2.62, 1.00, -15.40, true) -- 10
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:Upgrade(10)
+TDS:SetOption(10, "Trap", "Bear Traps")
+TDS:Place("Trapper", 9.98, 1.00, -12.56, true) -- 11
+TDS:Upgrade(11)
+TDS:Upgrade(11)
+TDS:Upgrade(11)
+TDS:Upgrade(11)
+TDS:SetOption(11, "Trap", "Bear Traps")
+TDS:Place("Trapper", -15.24, 1.00, -2.37, true) -- 12
+TDS:Upgrade(12)
+TDS:Upgrade(12)
+TDS:Upgrade(12)
+TDS:Upgrade(12)
+TDS:SetOption(12, "Trap", "Bear Traps")
+
+-- [[ END OF STRATEGY ]]
