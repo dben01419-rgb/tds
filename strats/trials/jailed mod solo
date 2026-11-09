@@ -1,4 +1,4 @@
-ocal TDS = loadstring(game:HttpGet("https://getaether.cc/loader.lua"))()
+local TDS = loadstring(game:HttpGet("https://getaether.cc/loader.lua"))()
 
 TDS:Loadout("Gatling Gun", "Trapper", "DJ Booth", "None", "None")
 TDS:Mode("Trial")
