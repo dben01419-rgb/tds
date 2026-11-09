@@ -1,4 +1,4 @@
-local TDS = loadstring(game:HttpGet("https://getaether.cc/loader.lua"))()
+ocal TDS = loadstring(game:HttpGet("https://getaether.cc/loader.lua"))()
 
 TDS:Loadout("Gatling Gun", "Trapper", "DJ Booth", "None", "None")
 TDS:Mode("Trial")
@@ -20,7 +20,7 @@ TDS:Upgrade(3)
 TDS:Upgrade(3)
 TDS:Upgrade(3)
 TDS:Upgrade(3)
-TDS:Place("DJ Booth", 147.04, 5.07, -7.94, true) -- 4
+TDS:Place("DJ Booth", 145.94235229492188, 2.0749998092651367, -7.102357864379883, true) -- 4
 TDS:Upgrade(4)
 TDS:Upgrade(4)
 TDS:Upgrade(4)
